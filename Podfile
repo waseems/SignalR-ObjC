@@ -2,8 +2,8 @@ xcodeproj 'SignalR.Client.ObjC/SignalR.Client.ObjC'
 workspace 'SignalR.Client.ObjC'
 
 target :"SignalR.Client.iOS", :exclusive => true do
-  platform :ios, '6.0'
-  pod 'AFNetworking', '2.0.2'
+  platform :ios, '7.0'
+  pod 'AFNetworking', '~> 2.0'
   pod 'SocketRocket', '0.3.1-beta2'
 end
 

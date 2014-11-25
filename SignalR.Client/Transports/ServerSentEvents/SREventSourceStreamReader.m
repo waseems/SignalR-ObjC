@@ -82,7 +82,7 @@ typedef enum {
                 [self onOpened];
             } case NSStreamEventHasSpaceAvailable: {
                 if (![self processing]) {
-                    return;
+                    return; // Returning everytime..
                 }
                 
                 NSData *buffer = [stream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
