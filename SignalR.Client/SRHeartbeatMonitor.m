@@ -67,6 +67,7 @@
                 SRLogConnection("Connection Timed-out : Transport Lost Connection");
                 _timedOut = true;
                 [[_connection transport] lostConnection:_connection];
+                [_connection disconnect];
             }
         } else if (timeElapsed >= [[[_connection keepAliveData] timeoutWarning] integerValue]) {
             if (!self.hasBeenWarned) {
