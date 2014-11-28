@@ -81,8 +81,8 @@ typedef enum {
                 _reading = processing;
                 [self onOpened];
             } case NSStreamEventHasSpaceAvailable: {
-                if (![self processing]) {
-                    return; // Returning everytime.. ..er.
+                if (![self processing]) { // Never True because stream is opened wrongly. Stream open called before setting delegate nd runloop
+                    //return; // Intermediate solution, coz stream is opened already but event not getting called.
                 }
                 
                 NSData *buffer = [stream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
