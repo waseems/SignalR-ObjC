@@ -127,6 +127,7 @@ typedef enum {
                 }
                 @finally {
                     NSLog(@"Clients need to be informed about failure..");
+                    [self onStreamReadingFailure];
                 }
 
                 break;
