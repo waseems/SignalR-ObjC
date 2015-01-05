@@ -124,10 +124,11 @@ typedef enum {
                 }
                 @catch (NSException *exception) {
                     NSLog(@"SignalR streaming Exception > description = %@", exception.description);
-                }
-                @finally {
+                    
                     NSLog(@"Clients need to be informed about failure..");
                     [self onStreamReadingFailure];
+                }
+                @finally {
                 }
 
                 break;
