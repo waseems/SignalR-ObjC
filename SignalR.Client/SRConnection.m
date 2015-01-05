@@ -356,6 +356,14 @@
     [self updateLastKeepAlive];
 }
 
+-(void)didFailReadingStream
+{
+    if (self.delegate && [self.delegate respondsToSelector:@selector(SRConnectionDidFailReadingStream:)]) {
+        [self.delegate SRConnectionDidFailReadingStream:self];
+    }
+
+}
+
 - (void)connectionDidSlow {
     if (self.connectionSlow != nil) {
         self.connectionSlow();

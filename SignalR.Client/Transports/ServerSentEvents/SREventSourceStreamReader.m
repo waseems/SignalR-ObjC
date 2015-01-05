@@ -42,6 +42,7 @@ typedef enum {
 - (BOOL)processing;
 
 - (void)onOpened;
+- (void)onStreamReadingFailure;
 - (void)onMessage:(SRServerSentEvent *)sseEvent;
 - (void)onClosed:(NSError *)error;
 
@@ -81,41 +82,53 @@ typedef enum {
                 _reading = processing;
                 [self onOpened];
             } case NSStreamEventHasSpaceAvailable: {
-                if (![self processing]) { // Never True because stream is opened wrongly. Stream open called before setting delegate nd runloop
-                    //return; // Intermediate solution, coz stream is opened already but event not getting called.
-                }
                 
-                NSData *buffer = [stream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
-                /*if ([buffer length] >= 4096) {
-                    [self close];
-                    return;
-                }*/
-                buffer = [buffer subdataWithRange:NSMakeRange(_offset, [buffer length] - _offset)];
-                
-                NSInteger read = [buffer length];
-                if(read > 0) {
-                    // Put chunks in the buffer
-                    _offset = _offset + read;
-                    
-                    [_buffer add:buffer];
-                    while ([_buffer hasChunks]) {
-                        NSString *line = [_buffer readLine];
-                        
-                        // No new lines in the buffer so stop processing
-                        if (line == nil) {
-                            break;
-                        }
-                        
-                        SRServerSentEvent *sseEvent = nil;
-                        if(![SRServerSentEvent tryParseEvent:line sseEvent:&sseEvent]) {
-                            continue;
-                        }
-                        
-                        SRLogServerSentEvents(@"SSE READ: %@",sseEvent);
-                        
-                        [self onMessage:sseEvent];
+                @try {
+                    //..
+                    if (![self processing]) { // Never True because stream is opened wrongly. Stream open called before setting delegate nd runloop
+                        //return; // Intermediate solution, coz stream is opened already but event not getting called.
                     }
+                    
+                    NSData *buffer = [stream propertyForKey:NSStreamDataWrittenToMemoryStreamKey];
+                    /*if ([buffer length] >= 4096) {
+                     [self close];
+                     return;
+                     }*/
+                    buffer = [buffer subdataWithRange:NSMakeRange(_offset, [buffer length] - _offset)];
+                    
+                    NSInteger read = [buffer length];
+                    if(read > 0) {
+                        // Put chunks in the buffer
+                        _offset = _offset + read;
+                        
+                        [_buffer add:buffer];
+                        while ([_buffer hasChunks]) {
+                            NSString *line = [_buffer readLine];
+                            
+                            // No new lines in the buffer so stop processing
+                            if (line == nil) {
+                                break;
+                            }
+                            
+                            SRServerSentEvent *sseEvent = nil;
+                            if(![SRServerSentEvent tryParseEvent:line sseEvent:&sseEvent]) {
+                                continue;
+                            }
+                            
+                            ////SRLogServerSentEvents(@"SSE READ: %@",sseEvent);
+                            
+                            [self onMessage:sseEvent];
+                        }
+                    }
+                    //..
                 }
+                @catch (NSException *exception) {
+                    NSLog(@"SignalR streaming Exception > description = %@", exception.description);
+                }
+                @finally {
+                    NSLog(@"Clients need to be informed about failure..");
+                }
+
                 break;
             } case NSStreamEventErrorOccurred: {
                 [self onClosed:[stream streamError]];
@@ -161,5 +174,13 @@ typedef enum {
         [_stream close];
     }
 }
+
+-(void)onStreamReadingFailure
+{
+    if(self.failure) {
+        self.failure();
+    }
+}
+
 
 @end

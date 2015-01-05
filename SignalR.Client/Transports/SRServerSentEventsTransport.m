@@ -161,6 +161,11 @@ typedef void (^SRCompletionHandler)(id response, NSError *error);
                 [strongConnection didReconnect];
             }
         };
+        
+        eventSource.failure = ^() {
+            sdasdsdas
+        };
+        
         eventSource.message = ^(SRServerSentEvent * sseEvent) {
             __strong __typeof(&*weakSelf)strongSelf = weakSelf;
             __strong __typeof(&*weakConnection)strongConnection = weakConnection;

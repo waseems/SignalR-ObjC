@@ -25,6 +25,7 @@
 @class SRServerSentEvent;
 
 typedef void (^SREventSourceStreamReaderStreamOpenedBlock)();
+typedef void (^SREventSourceStreamReaderStreamReadingFailure)();
 typedef void (^SREventSourceStreamReaderStreamClosedBlock)(NSError * error);
 typedef void (^SREventSourceStreamReaderStreamMessageBlock)(SRServerSentEvent * event);
 
@@ -44,6 +45,12 @@ typedef void (^SREventSourceStreamReaderStreamMessageBlock)(SRServerSentEvent * 
  * Invoked when there's a message if received in the stream.
  */
 @property (copy) SREventSourceStreamReaderStreamMessageBlock message;
+
+/*
+ * Invoked when there's a problem in reading data from stream.
+ */
+@property (copy) SREventSourceStreamReaderStreamReadingFailure failure;
+
 
 - (id)initWithStream:(NSOutputStream *)steam;
 

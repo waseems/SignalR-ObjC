@@ -71,6 +71,7 @@
 - (void)willReconnect;
 - (void)didReconnect;
 - (void)connectionDidSlow;
+- (void)didFailReadingStream;
 
 ///-------------------------------
 /// @name Preparing Requests
