@@ -4,7 +4,7 @@ Pod::Spec.new do |s|
   s.summary      = "Objective-C Client for the SignalR Project works with iOS and Mac."
   s.homepage     = "https://github.com/yesnoyes/SignalR-ObjC"
   s.license      = 'MIT'
-  s.author       = { “Jenis“ => “shahid.iqbal1090@gmail.com” }
+  s.author       = { "Jenis" => "shahid.iqbal1090@gmail.com" }
   s.source   	 = { :git => 'https://github.com/yesnoyes/SignalR-ObjC.git', :tag => '2.0.0.alpha1' }
   s.ios.deployment_target = '7.0'
   s.osx.deployment_target = '10.8'
