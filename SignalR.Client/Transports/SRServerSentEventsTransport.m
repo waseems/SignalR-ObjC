@@ -163,7 +163,10 @@ typedef void (^SRCompletionHandler)(id response, NSError *error);
         };
         
         eventSource.failure = ^() {
-            sdasdsdas
+            __strong __typeof(&*weakSelf)strongSelf = weakSelf;
+            __strong __typeof(&*weakConnection)strongConnection = weakConnection;
+
+            [strongConnection didFailReadingStream];
         };
         
         eventSource.message = ^(SRServerSentEvent * sseEvent) {
