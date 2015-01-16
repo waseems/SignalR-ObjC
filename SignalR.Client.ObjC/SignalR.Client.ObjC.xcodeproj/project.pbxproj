@@ -210,6 +210,9 @@
 		3C91B0A61A679C4300B4BBA1 /* HubProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C91B0A01A679C4300B4BBA1 /* HubProxy.mm */; };
 		3C91B0A71A679C4300B4BBA1 /* SignalRClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C91B0A11A679C4300B4BBA1 /* SignalRClient.h */; };
 		3C91B0A81A679C4300B4BBA1 /* SignalRClient.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3C91B0A21A679C4300B4BBA1 /* SignalRClient.mm */; };
+		3C9F0AC71A690980005820A5 /* SRCEventData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C9F0AC41A690980005820A5 /* SRCEventData.h */; };
+		3C9F0AC81A690980005820A5 /* SRCInvokedServerMethodData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C9F0AC51A690980005820A5 /* SRCInvokedServerMethodData.h */; };
+		3C9F0AC91A690980005820A5 /* SRCSendData.h in Headers */ = {isa = PBXBuildFile; fileRef = 3C9F0AC61A690980005820A5 /* SRCSendData.h */; };
 		D27CBDC3D95B4241B1B76237 /* libPods-SignalR.Client.iOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9E09B8C504C4E1BBE289746 /* libPods-SignalR.Client.iOS.a */; };
 /* End PBXBuildFile section */
 
@@ -355,6 +358,9 @@
 		3C91B0A01A679C4300B4BBA1 /* HubProxy.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = HubProxy.mm; sourceTree = "<group>"; };
 		3C91B0A11A679C4300B4BBA1 /* SignalRClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignalRClient.h; sourceTree = "<group>"; };
 		3C91B0A21A679C4300B4BBA1 /* SignalRClient.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SignalRClient.mm; sourceTree = "<group>"; };
+		3C9F0AC41A690980005820A5 /* SRCEventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCEventData.h; sourceTree = "<group>"; };
+		3C9F0AC51A690980005820A5 /* SRCInvokedServerMethodData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCInvokedServerMethodData.h; sourceTree = "<group>"; };
+		3C9F0AC61A690980005820A5 /* SRCSendData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRCSendData.h; sourceTree = "<group>"; };
 		44FC38C0E4079F24C0513E74 /* Pods-SignalR.Client.OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalR.Client.OSX.release.xcconfig"; path = "../Pods/Target Support Files/Pods-SignalR.Client.OSX/Pods-SignalR.Client.OSX.release.xcconfig"; sourceTree = "<group>"; };
 		8CFF876916E13FF500B67FCA /* SRHubConnectionInterface.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SRHubConnectionInterface.h; sourceTree = "<group>"; };
 		F5BD3DBC07B46B43D5A49481 /* Pods-SignalR.Client.OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SignalR.Client.OSX.debug.xcconfig"; path = "../Pods/Target Support Files/Pods-SignalR.Client.OSX/Pods-SignalR.Client.OSX.debug.xcconfig"; sourceTree = "<group>"; };
@@ -771,6 +777,9 @@
 		3C91B09C1A679C4300B4BBA1 /* SRCUnityPlugin */ = {
 			isa = PBXGroup;
 			children = (
+				3C9F0AC41A690980005820A5 /* SRCEventData.h */,
+				3C9F0AC51A690980005820A5 /* SRCInvokedServerMethodData.h */,
+				3C9F0AC61A690980005820A5 /* SRCSendData.h */,
 				3C39F9181A68BEDD00F6BE79 /* SignalRClientUnityPlugin.mm */,
 				3C91B09D1A679C4300B4BBA1 /* HubConnection.h */,
 				3C91B09E1A679C4300B4BBA1 /* HubConnection.mm */,
@@ -862,6 +871,7 @@
 				3920788D15AF13F6009B959E /* SRVersion.h in Headers */,
 				3920788F15AF13F6009B959E /* SignalR.h in Headers */,
 				3920789015AF13F6009B959E /* SRConnection.h in Headers */,
+				3C9F0AC91A690980005820A5 /* SRCSendData.h in Headers */,
 				39EBAC3116D072E300C6F359 /* SRConnectionInterface.h in Headers */,
 				39423B5716D13515003E7516 /* SRConnectionExtensions.h in Headers */,
 				39EBAC3316D072EE00C6F359 /* SRConnectionDelegate.h in Headers */,
@@ -870,11 +880,13 @@
 				3920789615AF13F6009B959E /* SRChunkBuffer.h in Headers */,
 				3920789815AF13F6009B959E /* SREventSourceStreamReader.h in Headers */,
 				3920789D15AF13F6009B959E /* SRAutoTransport.h in Headers */,
+				3C9F0AC81A690980005820A5 /* SRCInvokedServerMethodData.h in Headers */,
 				3920788115AF13F6009B959E /* NSObject+SRJSON.h in Headers */,
 				392078A015AF13F6009B959E /* SRClientTransportInterface.h in Headers */,
 				392078A115AF13F6009B959E /* SRHttpBasedTransport.h in Headers */,
 				392078A315AF13F6009B959E /* SRLongPollingTransport.h in Headers */,
 				392078A515AF13F6009B959E /* SRServerSentEventsTransport.h in Headers */,
+				3C9F0AC71A690980005820A5 /* SRCEventData.h in Headers */,
 				39AF0D7E17138E3800E13E6E /* SRWebSocketTransport.h in Headers */,
 				39AF0D821713935A00E13E6E /* SRWebSocketConnectionInfo.h in Headers */,
 				39533B8D173B376F003C138A /* SRKeepAliveData.h in Headers */,

@@ -1,5 +1,6 @@
 #import "HubConnection.h"
 #import "SignalRClient.h"
+#import "SRCSendData.h"
 
 @implementation HubConnection
 
@@ -78,11 +79,20 @@
  *  completionHandler assigned to every send:completionHandler call
  */
 - (void)onMessageSent:(id)response
-				withError:(NSError *)error
+               withId:requestId
+            withError:(NSError *)error
 {
-    NSDictionary *data = (error == nil) ? @{@"Response" : response, @"Error" : @""} : @{@"Response" : @"", @"Error" : error};
+    if (error != nil)
+    {
+        NSLog(@"HubConnection.onMessageSent error: %@", error);
+        return;
+    }
     
-    NSString *dataString = [SignalRClient jsonSerialize:data];
+    SRCSendData *dataObj = [SRCSendData init];
+    dataObj.RequestId = requestId;
+    dataObj.Response = [SignalRClient jsonSerialize:response];
+    
+    NSString *dataString = [SignalRClient jsonSerialize:dataObj];
     
     self.messageSent(self.connectionId, dataString);
 }

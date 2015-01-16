@@ -43,30 +43,32 @@ typedef enum srcTransportTypes
 #pragma mark Called from Unity - hub connection methods
 
 - (void)createConnection:(NSString *)connectionId
-					toUrl:(NSString *)url
-                    withQuery:(NSString *)query;
+                   toUrl:(NSString *)url
+               withQuery:(NSString *)query;
 
 - (void)createProxy:(NSString *)hubName
-        inConnection:(NSString *)connectionId;
+       inConnection:(NSString *)connectionId;
 
 - (void)startConnection:(NSString *)connectionId
-		withTransport:(SRCTransportType)transport;
+          withTransport:(SRCTransportType)transport;
 
 - (void)stopConnection:(NSString *)connectionId;
 
 - (void)sendMessage:(NSString *)data
-        inConnection:(NSString *)connectionId;
+             withId:(NSString *)requestId
+       inConnection:(NSString *)connectionId;
 
 
 #pragma mark Called from Unity - hub proxy methods
 
 - (void)callServerMethod:(NSString *)methodName
                 withArgs:(NSString *)params
-                inHub:(NSString *)hubName
-                inConnection:(NSString *)connectionId;
+                  withId:(NSString *)requestId
+                   inHub:(NSString *)hubName
+            inConnection:(NSString *)connectionId;
 
 - (void)subscribeToEvent:(NSString *)eventName
-                    inHub:(NSString *)hubName
+                   inHub:(NSString *)hubName
             inConnection:(NSString *)connectionId;
 
 

@@ -56,7 +56,8 @@ typedef void (^ConnectionCallback)(NSString *, NSString *);
  *  completionHandler assigned to every send:completionHandler call
  */
 - (void)onMessageSent:(id)response
-				withError:(NSError *)error;
+               withId:requestId
+            withError:(NSError *)error;
 
 /** 
  *  Block assigned to Connection.received

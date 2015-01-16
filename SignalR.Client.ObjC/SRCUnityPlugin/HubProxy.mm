@@ -1,22 +1,30 @@
 #import "HubProxy.h"
 #import "SignalRClient.h"
+#import "SRCEventData.h"
+#import "SRCInvokedServerMethodData.h"
 
 @implementation HubProxy
 
 - (void)receiveEvent:(NSString *)eventName
-				withParams:(NSString*)params
+          withParams:(NSString*)params
 {
-    NSDictionary *data = @{@"EventName" : eventName,
-                           @"Params" : params};
+    SRCEventData *dataObj = [SRCEventData init];
+    dataObj.EventName = eventName;
+    dataObj.Data = params;
     
-    NSString *dataString = [SignalRClient jsonSerialize:data];
+    NSString *dataString = [SignalRClient jsonSerialize:dataObj];
     
     self.eventReceived(self.connectionId, self.hubName, dataString);
 }
 
 - (void)receiveInvokedServerMethod:(id)data
+                            withId:(NSString *)requestId
 {
-    NSString *dataString = [SignalRClient jsonSerialize:data];
+    SRCInvokedServerMethodData *dataObj = [SRCInvokedServerMethodData init];
+    dataObj.RequestId = requestId;
+    dataObj.Data = [SignalRClient jsonSerialize:data];
+    
+    NSString *dataString = [SignalRClient jsonSerialize:dataObj];
     
     self.serverMethodInvoked(self.connectionId, self.hubName, dataString);
 }

@@ -16,6 +16,7 @@ typedef void (^ProxyCallback)(NSString *, NSString *, NSString *);
 - (void)receiveEvent:(NSString *)eventName
 				withParams:(NSString*)params;
 
-- (void)receiveInvokedServerMethod:(id)invokeData;
+- (void)receiveInvokedServerMethod:(id)invokeData
+                            withId:(NSString *)requestId;
 
 @end

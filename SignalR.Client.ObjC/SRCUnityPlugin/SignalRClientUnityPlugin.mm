@@ -73,26 +73,26 @@ extern "C" {
         [signalRClient stopConnection:CreateNSString(connectionId)];
     }
     
-    void _srcSendMessage(const char* data, const char* connectionId)
+    void _srcSendMessage(const char* requestId, const char* data, const char* connectionId)
     {
-        NSLog(@"_srcSendMessage: %s, %s", data, connectionId);
+        NSLog(@"_srcSendMessage: %s, %s, %s", requestId, data, connectionId);
         
         if (signalRClient == nil) return;
         
-        [signalRClient sendMessage:CreateNSString(data) inConnection:CreateNSString(connectionId)];
+        [signalRClient sendMessage:CreateNSString(data) withId:CreateNSString(requestId) inConnection:CreateNSString(connectionId)];
     }
     
     /*
      * hub proxy methods
      */
 	
-	void _srcCallServerMethod(const char* methodName, const char* params, const char* hubName, const char* connectionId)
+	void _srcCallServerMethod(const char* requestId, const char* methodName, const char* params, const char* hubName, const char* connectionId)
     {
         NSLog(@"_srcCallServerMethod: %s, %s, %s, %s", methodName, params, hubName, connectionId);
         
         if (signalRClient == nil) return;
         
-        [signalRClient callServerMethod:CreateNSString(methodName) withArgs:CreateNSString(params) inHub:CreateNSString(hubName) inConnection:CreateNSString(connectionId)];
+        [signalRClient callServerMethod:CreateNSString(methodName) withArgs:CreateNSString(params) withId:CreateNSString(requestId) inHub:CreateNSString(hubName) inConnection:CreateNSString(connectionId)];
     }
 	
 	void _srcSubscribeToEvent(const char* eventName, const char* hubName, const char* connectionId)

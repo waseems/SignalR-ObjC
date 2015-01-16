@@ -102,13 +102,16 @@
 }
 
 - (void)sendMessage:(NSString *)data
-        inConnection:(NSString *)connectionId
+             withId:(NSString *)requestId
+       inConnection:(NSString *)connectionId;
 {
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
     if (hubConn == nil) return;
     
+    __weak NSString *blockRequestId = requestId;
+    
     [hubConn.connection send:data completionHandler:^(id response, NSError *error) {
-        [hubConn onMessageSent:response withError:error];
+        [hubConn onMessageSent:response withId:blockRequestId withError:error];
     }];
 }
 
@@ -117,8 +120,9 @@
 
 - (void)callServerMethod:(NSString *)methodName
                 withArgs:(NSArray *)params
-                inHub:(NSString *)hubName
-                inConnection:(NSString *)connectionId
+                  withId:(NSString *)requestId
+                   inHub:(NSString *)hubName
+            inConnection:(NSString *)connectionId;
 {
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
     if (hubConn == nil) return;
@@ -126,13 +130,15 @@
     HubProxy *hubProxy = [hubConn getHubProxyWithId:hubName];
     if (hubProxy == nil) return;
     
+    __weak NSString *blockRequestId = requestId;
+    
     [hubProxy.proxy invoke:methodName withArgs:params completionHandler:^(id response) {
-        [hubProxy receiveInvokedServerMethod:response];
+        [hubProxy receiveInvokedServerMethod:response withId:blockRequestId];
     }];
 }
 
 - (void)subscribeToEvent:(NSString *)eventName
-                    inHub:(NSString *)hubName
+                   inHub:(NSString *)hubName
             inConnection:(NSString *)connectionId
 {
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
