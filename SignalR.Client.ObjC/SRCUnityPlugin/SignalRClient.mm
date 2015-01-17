@@ -1,6 +1,9 @@
 #import "SignalRClient.h"
 #import "HubConnection.h"
 #import "HubProxy.h"
+#import "SRWebSocketTransport.h"
+#import "SRServerSentEventsTransport.h"
+#import "SRLongPollingTransport.h"
 
 #define MakeStringCopy( _x_ ) ( _x_ != NULL && [_x_ isKindOfClass:[NSString class]] ) ? strdup( [_x_ UTF8String] ) : NULL
 
@@ -84,12 +87,33 @@
 }
 
 - (void)startConnection:(NSString *)connectionId
-		withTransport:(SRCTransportType)transport;
+		withTransport:(SRCTransportType)transportType;
 {
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
     if (hubConn == nil) return;
     
-    // TODO: specify transport
+    switch (transportType) {
+        case SRC_TRANSPORT_AUTO:
+            [hubConn.connection start];
+            break;
+            
+        case SRC_TRANSPORT_WEB_SOCKETS:
+            [hubConn.connection start:[SRWebSocketTransport init]];
+            break;
+            
+        case SRC_TRANSPORT_SERVER_SENT_EVENTS:
+            [hubConn.connection start:[SRServerSentEventsTransport init]];
+            break;
+            
+        case SRC_TRANSPORT_LONG_POLLING:
+            [hubConn.connection start:[SRLongPollingTransport init]];
+            break;
+            
+        default:
+            NSLog(@"SignalRClient.startConnection: %u transport type not handled", transportType);
+            break;
+    }
+    
     [hubConn.connection start];
 }
 
