@@ -134,6 +134,7 @@ completionHandler:(void (^)(id response, NSError *error))block {
     [connection prepareRequest:urlRequest];
     
     AFHTTPRequestOperation *operation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+    operation.shouldDeserializeResponse = false; // Jica: set to false so the our unity plugin methods deserialize
     [operation setResponseSerializer:[AFJSONResponseSerializer serializer]];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
         [connection didReceiveData:responseObject];

@@ -49,6 +49,11 @@
  */
 @property (readonly, nonatomic, strong) id responseObject;
 
+/**
+ Jica: This should be set to true if should deserialize response before passing to success block. This is initialized to true in initWithRequest.
+ */
+@property bool shouldDeserializeResponse;
+
 ///-----------------------------------------------------------
 /// @name Setting Completion Block Success / Failure Callbacks
 ///-----------------------------------------------------------

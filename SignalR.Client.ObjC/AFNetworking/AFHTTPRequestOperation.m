@@ -67,6 +67,10 @@ static dispatch_group_t http_request_operation_completion_group() {
 
     self.responseSerializer = [AFHTTPResponseSerializer serializer];
 
+    // Jica: initialize shouldDeserializeResponse to true for normal processing
+    // (response deserialized before sending to success block)
+    self.shouldDeserializeResponse = true;
+    
     return self;
 }
 
@@ -124,18 +128,31 @@ static dispatch_group_t http_request_operation_completion_group() {
                     });
                 }
             } else {
-                id responseObject = self.responseObject;
-                if (self.error) {
-                    if (failure) {
-                        dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
-                            failure(self, self.error);
-                        });
-                    }
-                } else {
+                // Jica: send raw response data if should not deserialize and has no error
+                if (!self.shouldDeserializeResponse && !self.error)
+                {
                     if (success) {
                         dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
-                            success(self, responseObject);
+                            success(self, self.responseData);
                         });
+                    }
+                }
+                // Jica: end
+                else
+                {
+                    id responseObject = self.responseObject;
+                    if (self.error) {
+                        if (failure) {
+                            dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
+                                failure(self, self.error);
+                            });
+                        }
+                    } else {
+                        if (success) {
+                            dispatch_group_async(self.completionGroup ?: http_request_operation_completion_group(), self.completionQueue ?: dispatch_get_main_queue(), ^{
+                                success(self, responseObject);
+                            });
+                        }
                     }
                 }
             }
