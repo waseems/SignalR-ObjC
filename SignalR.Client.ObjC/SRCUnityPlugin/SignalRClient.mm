@@ -99,6 +99,9 @@
     if (hubConn == nil) return;
     
     [hubConn.connection stop];
+    
+    // clean up
+    [self.connections removeObjectForKey:connectionId];
 }
 
 - (void)sendMessage:(NSString *)data
