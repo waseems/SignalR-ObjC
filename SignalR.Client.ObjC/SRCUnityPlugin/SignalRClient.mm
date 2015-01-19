@@ -15,6 +15,7 @@
 {
     if (self = [super init])
     {
+        // init connections dictionary
         self.connections = [NSMutableDictionary init];
     }
     return self;
@@ -27,13 +28,16 @@
 					toUrl:(NSString *)url
                     withQuery:(NSString *)query
 {
+    // create HubConnection instance
     HubConnection *hubConn = [HubConnection init];
     
     // set ID
     hubConn.connectionId = connectionId;
     
-    // set connection reference
+    // get SRHubConnection instance
     SRHubConnection *srHubConn = [SRHubConnection connectionWithURL:url queryString:query];
+
+    // set connection reference
     hubConn.connection = srHubConn;
     
     // set callbacks
@@ -57,9 +61,11 @@
 - (void)createProxy:(NSString *)hubName
         inConnection:(NSString *)connectionId
 {
+    // get connection reference
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
     if (hubConn == nil) return;
     
+    // create HubProxy instance
     HubProxy *hubProxy = [HubProxy init];
     
     // set hub name
@@ -68,8 +74,10 @@
     // set connection ID
     hubProxy.connectionId = connectionId;
     
-    // set proxy reference
+    // get SRHubProxy instance
     SRHubProxy *srHubProxy = [hubConn.connection createHubProxy:connectionId];
+
+    // set proxy reference
     hubProxy.proxy = srHubProxy;
     
     // set callbacks
@@ -89,10 +97,13 @@
 - (void)startConnection:(NSString *)connectionId
 		withTransport:(SRCTransportType)transportType;
 {
+    // get connection reference
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
     if (hubConn == nil) return;
     
-    switch (transportType) {
+    // start connection with correct transport type
+    switch (transportType)
+    {
         case SRC_TRANSPORT_AUTO:
             [hubConn.connection start];
             break;
@@ -110,11 +121,10 @@
             break;
             
         default:
-            NSLog(@"SignalRClient.startConnection: %u transport type not handled", transportType);
+            NSLog(@"SignalRClient.startConnection: %u transport type not handled; starting with default transport", transportType);
+            [hubConn.connection start];
             break;
     }
-    
-    [hubConn.connection start];
 }
 
 - (void)stopConnection:(NSString *)connectionId
@@ -174,7 +184,7 @@
     HubProxy *hubProxy = [hubConn getHubProxyWithId:hubName];
     if (hubProxy == nil) return;
     
-    [hubProxy.proxy subscribe:eventName];
+    [hubProxy.proxy on:eventName perform:hubProxy selector:@selector(receiveEvent:)];
 }
 
 

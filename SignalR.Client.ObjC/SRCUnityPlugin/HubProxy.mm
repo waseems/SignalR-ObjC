@@ -5,16 +5,9 @@
 
 @implementation HubProxy
 
-- (void)receiveEvent:(NSString *)eventName
-          withParams:(NSString*)params
-{
-    SRCEventData *dataObj = [SRCEventData init];
-    dataObj.EventName = eventName;
-    dataObj.Data = params;
-    
-    NSString *dataString = [SignalRClient jsonSerialize:dataObj];
-    
-    self.eventReceived(self.connectionId, self.hubName, dataString);
+- (void)receiveEvent:(NSString *)eventData
+{   
+    self.eventReceived(self.connectionId, self.hubName, eventData);
 }
 
 - (void)receiveInvokedServerMethod:(id)data

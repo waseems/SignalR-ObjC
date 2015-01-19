@@ -4,6 +4,7 @@ static SignalRClient *signalRClient = nil;
 
 // When native code plugin is implemented in .mm / .cpp file, then functions
 // should be surrounded with extern "C" block to conform C function naming rules
+// See SignalRClient.h documentation.
 extern "C" {
     
     // This takes a char* you get from Unity and converts it to an NSString* to use in your objective c code.

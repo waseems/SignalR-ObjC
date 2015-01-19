@@ -9,6 +9,7 @@
 {
     if (self = [super init])
     {
+        // init proxies array
         self.proxies = [NSMutableDictionary init];
     }
     return self;
@@ -23,6 +24,8 @@
 {
     self.connection = connection;
     
+    // set connection blocks
+
     __weak HubConnection *blockSelf = self;
     
     self.connection.started = ^() { [blockSelf onStarted]; };
@@ -30,13 +33,6 @@
     self.connection.closed = ^() { [blockSelf onClosed]; };
     self.connection.reconnected = ^() { [blockSelf onReconnected]; };
     self.connection.received = ^(id message) { [blockSelf onMessageReceived:message]; };
-}
-
-
-#pragma mark exposed methods
-
-- (void)sendMessage:(NSString *)message
-{
 }
 
 
