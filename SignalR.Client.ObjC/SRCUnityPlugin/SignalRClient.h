@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 /**
  * Delegates that match those in Unity C# to allow C-to-C# calls.
  */

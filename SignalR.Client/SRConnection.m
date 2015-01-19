@@ -21,6 +21,7 @@
 //
 
 #include <TargetConditionals.h>
+#import <UIKit/UIKit.h>
 #import "SRAutoTransport.h"
 #import "SRConnection.h"
 #import "SRLog.h"
