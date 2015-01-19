@@ -4,6 +4,7 @@
 #import "SRWebSocketTransport.h"
 #import "SRServerSentEventsTransport.h"
 #import "SRLongPollingTransport.h"
+#import "SRHubProxyExtensions.h"
 
 #define MakeStringCopy( _x_ ) ( _x_ != NULL && [_x_ isKindOfClass:[NSString class]] ) ? strdup( [_x_ UTF8String] ) : NULL
 
