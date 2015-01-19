@@ -86,10 +86,6 @@
     {
         [self handleInvokedServerMethod:data inHub:hubName inConnection:connectionId];
     };
-    hubProxy.eventReceived = ^(NSString *connectionId, NSString *hubName, NSString *data)
-    {
-        [self handleEvent:data inHub:hubName inConnection:connectionId];
-    };
     
     // add to proxies dictionary
     [hubConn.proxies setObject:hubProxy forKey:hubName];
@@ -175,19 +171,6 @@
     }];
 }
 
-- (void)subscribeToEvent:(NSString *)eventName
-                   inHub:(NSString *)hubName
-            inConnection:(NSString *)connectionId
-{
-    HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
-    if (hubConn == nil) return;
-    
-    HubProxy *hubProxy = [hubConn getHubProxyWithId:hubName];
-    if (hubProxy == nil) return;
-    
-    [hubProxy.proxy on:eventName perform:hubProxy selector:@selector(receiveEvent:)];
-}
-
 
 #pragma mark called from Unity - callback setters
 
@@ -209,11 +192,6 @@
 - (void)setServerMethodInvokedCallback:(SRCProxyCallback *)callback
 {
     self.serverMethodInvoked = callback;
-}
-
-- (void)setEventReceivedCallback:(SRCProxyCallback *)callback
-{
-    self.eventReceived = callback;
 }
 
 
@@ -246,13 +224,6 @@
                      inConnection:(NSString *)connectionId
 {
     self.serverMethodInvoked(MakeStringCopy(connectionId), MakeStringCopy(hubName), MakeStringCopy(data));
-}
-
-- (void)handleEvent:(NSString *)data
-              inHub:(NSString *)hubName
-       inConnection:(NSString *)connectionId
-{
-    self.eventReceived(MakeStringCopy(connectionId), MakeStringCopy(hubName), MakeStringCopy(data));
 }
 
 

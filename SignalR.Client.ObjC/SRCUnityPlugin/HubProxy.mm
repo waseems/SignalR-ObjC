@@ -5,11 +5,6 @@
 
 @implementation HubProxy
 
-- (void)receiveEvent:(NSString *)eventData
-{   
-    self.eventReceived(self.connectionId, self.hubName, eventData);
-}
-
 - (void)receiveInvokedServerMethod:(id)data
                             withId:(NSString *)requestId
 {

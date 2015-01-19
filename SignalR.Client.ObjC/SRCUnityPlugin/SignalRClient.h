@@ -61,11 +61,6 @@ typedef enum srcTransportTypes
  */
 @property SRCProxyCallback *serverMethodInvoked;
 
-/**
- * Unity C# callback triggered when an event is received.
- */
-@property SRCProxyCallback *eventReceived;
-
 
 #pragma mark Initialization
 
@@ -123,13 +118,6 @@ typedef enum srcTransportTypes
                    inHub:(NSString *)hubName
             inConnection:(NSString *)connectionId;
 
-/**
- * Creates a subscription to the given event within the given hub in the given connection.
- */
-- (void)subscribeToEvent:(NSString *)eventName
-                   inHub:(NSString *)hubName
-            inConnection:(NSString *)connectionId;
-
 
 #pragma mark Called from Unity - callback setters
 
@@ -152,11 +140,6 @@ typedef enum srcTransportTypes
  * Sets the callback for server methods invoked.
  */
 - (void)setServerMethodInvokedCallback:(SRCProxyCallback *)callback;
-
-/**
- * Sets the callback for events received.
- */
-- (void)setEventReceivedCallback:(SRCProxyCallback *)callback;
 
 
 #pragma mark Utils

@@ -25,19 +25,9 @@ typedef void (^ProxyCallback)(NSString *, NSString *, NSString *);
 @property NSString *connectionId;
 
 /**
- * A block to be called when an event is received.
- */
-@property (copy) ProxyCallback eventReceived;
-
-/**
  * A block to be called when a server method is invoked.
  */
 @property (copy) ProxyCallback serverMethodInvoked;
-
-/**
- * Block assigned to every `SRHubProxy` on:perform:selector call.
- */
-- (void)receiveEvent:(NSString *)eventData;
 
 /**
  * Block assigned to every `SRHubProxy` invoke:withArgs:completionHandler call.

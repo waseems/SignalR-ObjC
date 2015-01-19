@@ -96,15 +96,6 @@ extern "C" {
         [signalRClient callServerMethod:CreateNSString(methodName) withArgs:CreateNSString(params) withId:CreateNSString(requestId) inHub:CreateNSString(hubName) inConnection:CreateNSString(connectionId)];
     }
 	
-	void _srcSubscribeToEvent(const char* eventName, const char* hubName, const char* connectionId)
-    {
-        NSLog(@"_srcSubscribeToEvent: %s, %s, %s", eventName, hubName, connectionId);
-        
-        if (signalRClient == nil) return;
-        
-        [signalRClient subscribeToEvent:CreateNSString(eventName) inHub:CreateNSString(hubName) inConnection:CreateNSString(connectionId)];
-    }
-	
     /*
      * callback setters
      */
@@ -143,14 +134,5 @@ extern "C" {
         if (signalRClient == nil) return;
         
 		[signalRClient setServerMethodInvokedCallback:callback];
-	}
-	
-	void _srcSetEventReceivedCallback(SRCProxyCallback *callback)
-	{
-        NSLog(@"_srcSetEventReceivedCallback");
-        
-        if (signalRClient == nil) return;
-        
-		[signalRClient setEventReceivedCallback:callback];
 	}
 }
