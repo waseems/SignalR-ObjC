@@ -176,6 +176,10 @@
             [super didReceiveData:data];
         }
     }
+    else
+    {
+        [super didReceiveData:data];
+    }
 }
 
 - (void)willReconnect {

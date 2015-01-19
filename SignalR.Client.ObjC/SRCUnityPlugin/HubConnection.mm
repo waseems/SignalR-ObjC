@@ -9,7 +9,7 @@
 {
     if (self = [super init])
     {
-        // init proxies array
+        // init proxies dictionary
         self.proxies = [NSMutableDictionary init];
     }
     return self;
