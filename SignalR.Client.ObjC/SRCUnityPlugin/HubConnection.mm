@@ -4,30 +4,30 @@
 
 @implementation HubConnection
 
+@synthesize connection = _connection;
 
 - (id)init
 {
     if (self = [super init])
     {
         // init proxies dictionary
-        self.proxies = [NSMutableDictionary init];
+        self.proxies = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
 - (SRHubConnection *)getConnection
 {
-    return self.connection;
+    return _connection;
 }
 
 - (void)setConnection:(SRHubConnection *)connection
 {
-    self.connection = connection;
+    _connection = connection;
     
     // set connection blocks
 
     __weak HubConnection *blockSelf = self;
-    
     self.connection.started = ^() { [blockSelf onStarted]; };
     self.connection.error = ^(NSError *error) { [blockSelf onError:error]; };
     self.connection.closed = ^() { [blockSelf onClosed]; };
@@ -84,7 +84,7 @@
         return;
     }
     
-    SRCSendData *dataObj = [SRCSendData init];
+    SRCSendData *dataObj = [[SRCSendData alloc] init];
     dataObj.RequestId = requestId;
     dataObj.Response = [SignalRClient jsonSerialize:response];
     

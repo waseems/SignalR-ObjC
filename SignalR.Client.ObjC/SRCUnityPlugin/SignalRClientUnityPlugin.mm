@@ -44,7 +44,9 @@ extern "C" {
         
         if (signalRClient == nil) return;
         
-        [signalRClient createConnection:CreateNSString(connectionId) toUrl:CreateNSString(url) withQuery:CreateNSString(query)];
+        NSString *queryString = !query || (0 == strlen(query)) ? @"" : CreateNSString(query);
+        
+        [signalRClient createConnection:CreateNSString(connectionId) toUrl:CreateNSString(url) withQuery:queryString];
     }
 	
 	void _srcCreateProxy(const char* hubName, const char* connectionId)
@@ -56,9 +58,9 @@ extern "C" {
         [signalRClient createProxy:CreateNSString(hubName) inConnection:CreateNSString(connectionId)];
     }
 	
-	void _srcStartConnection(const char* connectionId, int transportType)
+	void _srcStartConnection(int transportType, const char* connectionId)
     {
-        NSLog(@"_srcCreateProxy: %s, %d", connectionId, transportType);
+        NSLog(@"_srcStartConnection: %d, %s", transportType, connectionId);
         
         if (signalRClient == nil) return;
         

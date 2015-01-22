@@ -17,7 +17,7 @@
     if (self = [super init])
     {
         // init connections dictionary
-        self.connections = [NSMutableDictionary init];
+        self.connections = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -30,16 +30,16 @@
                     withQuery:(NSString *)query
 {
     // create HubConnection instance
-    HubConnection *hubConn = [HubConnection init];
+    HubConnection *hubConn = [[HubConnection alloc] init];
     
     // set ID
     hubConn.connectionId = connectionId;
     
     // get SRHubConnection instance
     SRHubConnection *srHubConn = [SRHubConnection connectionWithURL:url queryString:query];
-
+    
     // set connection reference
-    hubConn.connection = srHubConn;
+    [hubConn setConnection:srHubConn];
     
     // set callbacks
     hubConn.stateChanged = ^(NSString *connectionId, SRCConnectionState state, NSString *data)
@@ -67,7 +67,7 @@
     if (hubConn == nil) return;
     
     // create HubProxy instance
-    HubProxy *hubProxy = [HubProxy init];
+    HubProxy *hubProxy = [[HubProxy alloc] init];
     
     // set hub name
     hubProxy.hubName = hubName;
@@ -262,7 +262,7 @@
     
     if (hubConn == nil)
     {
-        NSLog(@"SignalRClient.createProxy: connection with ID %@ not found", connectionId);
+        NSLog(@"SignalRClient.getHubConnectionWithId: %@ not found", connectionId);
         return nil;
     }
     

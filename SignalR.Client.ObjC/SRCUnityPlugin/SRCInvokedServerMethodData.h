@@ -7,3 +7,7 @@
 @property NSString *Data;
 
 @end
+
+@implementation SRCInvokedServerMethodData
+
+@end

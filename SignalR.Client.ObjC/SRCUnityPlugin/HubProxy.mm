@@ -8,7 +8,7 @@
 - (void)receiveInvokedServerMethod:(id)data
                             withId:(NSString *)requestId
 {
-    SRCInvokedServerMethodData *dataObj = [SRCInvokedServerMethodData init];
+    SRCInvokedServerMethodData *dataObj = [[SRCInvokedServerMethodData alloc] init];
     dataObj.RequestId = requestId;
     dataObj.Data = [SignalRClient jsonSerialize:data];
     

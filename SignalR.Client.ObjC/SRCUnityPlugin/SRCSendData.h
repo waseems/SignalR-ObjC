@@ -7,3 +7,7 @@
 @property NSString *Response;
 
 @end
+
+@implementation SRCSendData
+
+@end
