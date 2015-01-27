@@ -6,6 +6,8 @@
 #import "SRLongPollingTransport.h"
 #import "SRHubProxyExtensions.h"
 
+#import "NSObject+SRJSON.h"
+
 #define MakeStringCopy( _x_ ) ( _x_ != NULL && [_x_ isKindOfClass:[NSString class]] ) ? strdup( [_x_ UTF8String] ) : NULL
 
 @implementation SignalRClient
@@ -36,7 +38,9 @@
     hubConn.connectionId = connectionId;
     
     // get SRHubConnection instance
-    SRHubConnection *srHubConn = [SRHubConnection connectionWithURL:url queryString:query];
+    SRHubConnection *srHubConn;
+    if (!query.length) srHubConn = [SRHubConnection connectionWithURL:url];
+    else srHubConn = [SRHubConnection connectionWithURL:url queryString:query];
     
     // set connection reference
     [hubConn setConnection:srHubConn];
@@ -76,7 +80,7 @@
     hubProxy.connectionId = connectionId;
     
     // get SRHubProxy instance
-    SRHubProxy *srHubProxy = [hubConn.connection createHubProxy:connectionId];
+    SRHubProxy *srHubProxy = [hubConn.connection createHubProxy:hubName];
 
     // set proxy reference
     hubProxy.proxy = srHubProxy;
@@ -139,10 +143,12 @@
              withId:(NSString *)requestId
        inConnection:(NSString *)connectionId;
 {
+    NSLog(@"SRC sendMessage");
     HubConnection *hubConn = [self getHubConnectionWithId:connectionId];
     if (hubConn == nil) return;
     
-    __weak NSString *blockRequestId = requestId;
+    __block NSString *blockRequestId = requestId;
+    NSLog(@"SRC sendMessage brid, rid: %@, %@", blockRequestId, requestId);
     
     [hubConn.connection send:data completionHandler:^(id response, NSError *error) {
         [hubConn onMessageSent:response withId:blockRequestId withError:error];
@@ -231,29 +237,17 @@
 
 + (NSString *)jsonSerialize:(id)toSerialize
 {
-    // Convertable to JSON ?
-    if ([NSJSONSerialization isValidJSONObject:toSerialize])
+    if (toSerialize == nil)
     {
-        NSError *error;
-        
-        // Serialize the dictionary
-        NSData *json = [NSJSONSerialization dataWithJSONObject:toSerialize options:NSJSONWritingPrettyPrinted error:&error];
-        
-        // If no errors, let's view the JSON
-        if (json != nil && error == nil)
-        {
-            NSString *jsonString = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
-            
-            NSLog(@"SignalRClient.jsonSerialize: %@", jsonString);
-            return jsonString;
-        }
-        
-        NSLog(@"SignalRClient.jsonSerialize serialization error: %@", error);
+        NSLog(@"jsonSerialize: tried to serialize nil");
+        return @"";
     }
     
-    NSLog(@"SignalRClient.jsonSerialize: object not serializable");
+    bool isStringClass = [toSerialize isKindOfClass:[NSString class]];
+    NSLog(@"jsonSerialize class: %@, %d", [toSerialize class], isStringClass);
     
-    return @"";
+    if (isStringClass) return toSerialize;
+    return [toSerialize SRJSONRepresentation];
 }
 
 - (HubConnection *)getHubConnectionWithId:(NSString *)connectionId

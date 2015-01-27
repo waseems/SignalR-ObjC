@@ -6,8 +6,16 @@
 @property NSString *RequestId;
 @property NSString *Response;
 
+- (NSDictionary *) getDict;
+
 @end
 
 @implementation SRCSendData
+
+- (NSDictionary *) getDict
+{
+    NSDictionary *dict = @{@"RequestId":self.RequestId, @"Response":self.Response};
+    return dict;
+}
 
 @end

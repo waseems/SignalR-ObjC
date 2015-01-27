@@ -43,6 +43,7 @@
  */
 - (void)onStarted
 {
+    NSLog(@"HC onStarted");
     self.stateChanged(self.connectionId, RSC_CONN_STATE_STARTED, @"");
 }
 
@@ -51,7 +52,9 @@
  */
 - (void)onError:(NSError *)error
 {
+    NSLog(@"HC onError: %@", error.description);
     NSString *dataString = [SignalRClient jsonSerialize:error];
+    NSLog(@"HC onError2: %@", error.description);
     self.stateChanged(self.connectionId, RSC_CONN_STATE_ERROR, dataString);
 }
 
@@ -60,6 +63,7 @@
  */
 - (void)onClosed
 {
+    NSLog(@"HC onClosed");
     self.stateChanged(self.connectionId, RSC_CONN_STATE_CLOSED, @"");
 }
 
@@ -68,6 +72,7 @@
  */
 - (void)onReconnected
 {
+    NSLog(@"HC onReconnected");
     self.stateChanged(self.connectionId, RSC_CONN_STATE_RECONNECTED, @"");
 }
 
@@ -78,6 +83,7 @@
                withId:requestId
             withError:(NSError *)error
 {
+    NSLog(@"HC onMessageSent: %@", requestId);
     if (error != nil)
     {
         NSLog(@"HubConnection.onMessageSent error: %@", error);
@@ -87,8 +93,10 @@
     SRCSendData *dataObj = [[SRCSendData alloc] init];
     dataObj.RequestId = requestId;
     dataObj.Response = [SignalRClient jsonSerialize:response];
+    NSLog(@"HC onMessageSent2: %@", requestId);
     
-    NSString *dataString = [SignalRClient jsonSerialize:dataObj];
+    NSString *dataString = [SignalRClient jsonSerialize:[dataObj getDict]];
+    NSLog(@"HC onMessageSent3: %@", requestId);
     
     self.messageSent(self.connectionId, dataString);
 }
@@ -98,9 +106,13 @@
  */
 - (void)onMessageReceived:(id)message
 {
-    NSString *dataString = [SignalRClient jsonSerialize:message];
+    NSLog(@"onMessageReceived class: %@", [message class]);
+    NSString *dataString;
+    if ([message isKindOfClass:[NSString class]]) dataString = (NSString *)message;
+    else dataString = [SignalRClient jsonSerialize:message];
+    NSLog(@"onMessageReceived class2: %@", [message class]);
     
-    self.messageSent(self.connectionId, dataString);
+    self.messageReceived(self.connectionId, dataString);
 }
 
 
