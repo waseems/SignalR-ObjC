@@ -11,10 +11,8 @@
     SRCInvokedServerMethodData *dataObj = [[SRCInvokedServerMethodData alloc] init];
     dataObj.RequestId = requestId;
     dataObj.Data = [SignalRClient jsonSerialize:data];
-    NSLog(@"HP receiveInvokedServerMethod2: %@", requestId);
     
     NSString *dataString = [SignalRClient jsonSerialize:[dataObj getDict]];
-    NSLog(@"HP receiveInvokedServerMethod3: %@", requestId);
     
     self.serverMethodInvoked(self.connectionId, self.hubName, dataString);
 }

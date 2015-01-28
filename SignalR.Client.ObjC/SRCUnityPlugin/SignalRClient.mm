@@ -148,7 +148,6 @@
     if (hubConn == nil) return;
     
     __block NSString *blockRequestId = requestId;
-    NSLog(@"SRC sendMessage brid, rid: %@, %@", blockRequestId, requestId);
     
     [hubConn.connection send:data completionHandler:^(id response, NSError *error) {
         [hubConn onMessageSent:response withId:blockRequestId withError:error];
@@ -244,7 +243,6 @@
     }
     
     bool isStringClass = [toSerialize isKindOfClass:[NSString class]];
-    NSLog(@"jsonSerialize class: %@, %d", [toSerialize class], isStringClass);
     
     if (isStringClass) return toSerialize;
     return [toSerialize SRJSONRepresentation];

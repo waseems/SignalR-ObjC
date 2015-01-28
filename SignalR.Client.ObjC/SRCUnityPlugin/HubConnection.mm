@@ -92,10 +92,8 @@
     SRCSendData *dataObj = [[SRCSendData alloc] init];
     dataObj.RequestId = requestId;
     dataObj.Response = [SignalRClient jsonSerialize:response];
-    NSLog(@"HC onMessageSent2: %@", requestId);
     
     NSString *dataString = [SignalRClient jsonSerialize:[dataObj getDict]];
-    NSLog(@"HC onMessageSent3: %@", requestId);
     
     self.messageSent(self.connectionId, dataString);
 }
@@ -109,7 +107,6 @@
     NSString *dataString;
     if ([message isKindOfClass:[NSString class]]) dataString = (NSString *)message;
     else dataString = [SignalRClient jsonSerialize:message];
-    NSLog(@"onMessageReceived class2: %@", [message class]);
     
     self.messageReceived(self.connectionId, dataString);
 }
