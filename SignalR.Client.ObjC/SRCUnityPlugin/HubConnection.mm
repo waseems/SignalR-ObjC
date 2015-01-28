@@ -53,8 +53,7 @@
 - (void)onError:(NSError *)error
 {
     NSLog(@"HC onError: %@", error.description);
-    NSString *dataString = [SignalRClient jsonSerialize:error];
-    NSLog(@"HC onError2: %@", error.description);
+    NSString *dataString = error.description;
     self.stateChanged(self.connectionId, RSC_CONN_STATE_ERROR, dataString);
 }
 

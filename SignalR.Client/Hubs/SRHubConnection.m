@@ -153,6 +153,7 @@
 #pragma mark Received Data
 
 - (void)didReceiveData:(id)data {
+    NSLog(@"didReceiveData");
     if([data isKindOfClass:[NSDictionary class]]) {
         if ([data valueForKey:@"I"]) {
             SRHubResult *result = [[SRHubResult alloc] initWithDictionary:data];
@@ -172,12 +173,13 @@
                 }
                 [hubProxy invokeEvent:invocation.method withArgs:invocation.args];
             }
-            
+            NSLog(@"didReceiveData2");
             [super didReceiveData:data];
         }
     }
     else
     {
+        NSLog(@"didReceiveData3");
         [super didReceiveData:data];
     }
 }

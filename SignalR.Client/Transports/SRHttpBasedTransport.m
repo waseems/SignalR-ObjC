@@ -137,9 +137,15 @@ completionHandler:(void (^)(id response, NSError *error))block {
     operation.shouldDeserializeResponse = false; // Jica: set to false so our unity plugin methods deserialize
     [operation setResponseSerializer:[AFJSONResponseSerializer serializer]];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [connection didReceiveData:responseObject];
+        // Jica: do not call connection didReceiveData if completion block isn't null
         if(block) {
+            NSLog(@"operation completion handler about to call block");
             block(responseObject, nil);
+        }
+        else
+        {
+            NSLog(@"operation completion handler to call didReceiveData");
+            [connection didReceiveData:responseObject];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [connection didReceiveError:error];
