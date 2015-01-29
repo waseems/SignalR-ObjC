@@ -1,6 +1,5 @@
 #import "HubConnection.h"
 #import "SignalRClient.h"
-#import "SRCSendData.h"
 
 @implementation HubConnection
 
@@ -89,11 +88,7 @@
         return;
     }
     
-    SRCSendData *dataObj = [[SRCSendData alloc] init];
-    dataObj.RequestId = requestId;
-    dataObj.Response = [SignalRClient jsonSerialize:response];
-    
-    NSString *dataString = [SignalRClient jsonSerialize:[dataObj getDict]];
+    NSString *dataString = [SignalRClient jsonSerialize:response];
     
     self.messageSent(self.connectionId, dataString);
 }
